@@ -17,6 +17,25 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { name, email, password, role, institution, department } = registerSchema.parse(body)
 
+    // In demo mode, return success without database operations
+    if (process.env.NEXT_PUBLIC_DEMO_MODE === 'true') {
+      return NextResponse.json(
+        { 
+          message: 'User created successfully (Demo Mode)',
+          user: {
+            id: 'demo-user-id',
+            name,
+            email,
+            role,
+            institution,
+            department,
+            createdAt: new Date().toISOString(),
+          }
+        },
+        { status: 201 }
+      )
+    }
+
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
       where: { email }

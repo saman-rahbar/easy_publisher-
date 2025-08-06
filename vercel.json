@@ -9,6 +9,7 @@
   },
   "env": {
     "NEXT_PUBLIC_DEMO_MODE": "true",
-    "NEXTAUTH_SECRET": "demo-secret-key-for-vercel-deployment"
+    "NEXTAUTH_SECRET": "demo-secret-key-for-vercel-deployment",
+    "DATABASE_URL": "file:./dev.db"
   }
 } 
