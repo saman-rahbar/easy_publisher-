@@ -38,29 +38,28 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginForm) => {
     setIsLoading(true)
     try {
-      // Check if we're in demo mode (static export)
-      if (process.env.NEXT_PUBLIC_DEMO_MODE === 'true') {
-        const user = findMockUserByEmail(data.email)
-        if (user && validateMockPassword(data.password)) {
-          createMockSession(user)
-          toast.success('Logged in successfully!')
-          router.push('/dashboard')
-        } else {
-          toast.error('Invalid email or password')
-        }
+      // Always use client-side authentication for demo
+      const user = findMockUserByEmail(data.email)
+      if (user && validateMockPassword(data.password)) {
+        createMockSession(user)
+        toast.success('Logged in successfully!')
+        router.push('/dashboard')
       } else {
-        // Use NextAuth for server-side authentication
-        const result = await signIn('credentials', {
-          email: data.email,
-          password: data.password,
-          redirect: false,
-        })
-
-        if (result?.error) {
-          toast.error('Invalid email or password')
-        } else {
-          toast.success('Logged in successfully!')
+        // Check if it's a demo user
+        const demoUsers = ['admin@demo.com', 'editor@demo.com', 'reviewer@demo.com']
+        if (demoUsers.includes(data.email)) {
+          // Create a demo user session
+          const demoUser = {
+            id: Date.now().toString(),
+            email: data.email,
+            name: data.email.split('@')[0].replace('.', ' ').replace(/\b\w/g, l => l.toUpperCase()),
+            role: data.email.includes('admin') ? 'admin' : data.email.includes('editor') ? 'editor' : 'reviewer'
+          }
+          createMockSession(demoUser)
+          toast.success('Logged in successfully with demo account!')
           router.push('/dashboard')
+        } else {
+          toast.error('Invalid email or password. Try: admin@demo.com, editor@demo.com, or reviewer@demo.com')
         }
       }
     } catch (error) {
@@ -137,6 +136,21 @@ export default function LoginPage() {
                 Sign up
               </Link>
             </p>
+          </div>
+
+          {/* Demo Information */}
+          <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+            <h3 className="text-sm font-semibold text-blue-800 dark:text-blue-200 mb-2">
+              Demo Accounts
+            </h3>
+            <p className="text-xs text-blue-700 dark:text-blue-300 mb-2">
+              Try these demo accounts (any password works):
+            </p>
+            <div className="space-y-1 text-xs text-blue-600 dark:text-blue-400">
+              <div>• <strong>admin@demo.com</strong> - Administrator</div>
+              <div>• <strong>editor@demo.com</strong> - Editor</div>
+              <div>• <strong>reviewer@demo.com</strong> - Reviewer</div>
+            </div>
           </div>
         </CardContent>
       </Card>

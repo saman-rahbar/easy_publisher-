@@ -85,15 +85,13 @@ export default function DashboardPage() {
   const router = useRouter()
 
   useEffect(() => {
-    // Check for session in demo mode
-    if (process.env.NEXT_PUBLIC_DEMO_MODE === 'true') {
-      const session = getMockSession()
-      if (!session) {
-        router.push('/auth/login')
-        return
-      }
-      setUser(session.user)
+    // Always check for session (client-side)
+    const session = getMockSession()
+    if (!session) {
+      router.push('/auth/login')
+      return
     }
+    setUser(session.user)
     setIsLoading(false)
   }, [router])
 

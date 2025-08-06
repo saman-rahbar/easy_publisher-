@@ -45,47 +45,27 @@ export default function SignupPage() {
   const onSubmit = async (data: SignupForm) => {
     setIsLoading(true)
     try {
-      // Check if we're in demo mode (static export)
-      if (process.env.NEXT_PUBLIC_DEMO_MODE === 'true') {
-        // Check if user already exists
-        const existingUser = findMockUserByEmail(data.email)
-        if (existingUser) {
-          toast.error('User with this email already exists')
-          return
-        }
-
-        // Create new user
-        const newUser = addMockUser({
-          email: data.email,
-          name: data.name,
-          role: data.role.toLowerCase(),
-          institution: data.institution,
-          department: data.department
-        })
-
-        toast.success('Account created successfully!')
-        router.push('/auth/login')
-      } else {
-        // Use server-side registration
-        const response = await fetch('/api/auth/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        })
-
-        const result = await response.json()
-
-        if (!response.ok) {
-          throw new Error(result.error || 'Failed to create account')
-        }
-
-        toast.success('Account created successfully!')
-        router.push('/auth/login')
+      // Always use client-side registration for demo
+      // Check if user already exists
+      const existingUser = findMockUserByEmail(data.email)
+      if (existingUser) {
+        toast.error('User with this email already exists')
+        return
       }
+
+      // Create new user
+      const newUser = addMockUser({
+        email: data.email,
+        name: data.name,
+        role: data.role.toLowerCase(),
+        institution: data.institution,
+        department: data.department
+      })
+
+      toast.success('Account created successfully! You can now log in.')
+      router.push('/auth/login')
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Failed to create account. Please try again.')
+      toast.error('Failed to create account. Please try again.')
     } finally {
       setIsLoading(false)
     }
@@ -222,7 +202,7 @@ export default function SignupPage() {
               />
             </div>
 
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full btn-primary" disabled={isLoading}>
               {isLoading ? 'Creating account...' : 'Create account'}
             </Button>
           </form>
@@ -233,6 +213,16 @@ export default function SignupPage() {
               <Link href="/auth/login" className="text-primary hover:underline">
                 Sign in
               </Link>
+            </p>
+          </div>
+
+          {/* Demo Information */}
+          <div className="mt-6 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+            <h3 className="text-sm font-semibold text-green-800 dark:text-green-200 mb-2">
+              Demo Mode
+            </h3>
+            <p className="text-xs text-green-700 dark:text-green-300">
+              This is a demo platform. Your account will be stored locally and will persist during your session.
             </p>
           </div>
         </CardContent>
