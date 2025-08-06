@@ -14,6 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { toast } from 'sonner'
 import { Eye, EyeOff, Mail, Lock, User, Building, GraduationCap } from 'lucide-react'
+import { addMockUser, findMockUserByEmail } from '@/lib/mock-auth-client'
 
 const signupSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -44,22 +45,45 @@ export default function SignupPage() {
   const onSubmit = async (data: SignupForm) => {
     setIsLoading(true)
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
+      // Check if we're in demo mode (static export)
+      if (process.env.NEXT_PUBLIC_DEMO_MODE === 'true') {
+        // Check if user already exists
+        const existingUser = findMockUserByEmail(data.email)
+        if (existingUser) {
+          toast.error('User with this email already exists')
+          return
+        }
 
-      const result = await response.json()
+        // Create new user
+        const newUser = addMockUser({
+          email: data.email,
+          name: data.name,
+          role: data.role.toLowerCase(),
+          institution: data.institution,
+          department: data.department
+        })
 
-      if (!response.ok) {
-        throw new Error(result.error || 'Failed to create account')
+        toast.success('Account created successfully!')
+        router.push('/auth/login')
+      } else {
+        // Use server-side registration
+        const response = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+
+        const result = await response.json()
+
+        if (!response.ok) {
+          throw new Error(result.error || 'Failed to create account')
+        }
+
+        toast.success('Account created successfully!')
+        router.push('/auth/login')
       }
-
-      toast.success('Account created successfully!')
-      router.push('/auth/login')
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Failed to create account. Please try again.')
     } finally {

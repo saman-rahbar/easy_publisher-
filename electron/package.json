@@ -25,8 +25,8 @@
     "files": [
       "main.js",
       "assets/**/*",
-      "../.next/**/*",
-      "../node_modules/**/*"
+      "../out/**/*",
+      "../public/**/*"
     ],
     "mac": {
       "category": "public.app-category.productivity",

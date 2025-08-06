@@ -91,10 +91,58 @@ function startNextServer() {
       env: { ...process.env }
     })
   } else {
-    // For production, start Next.js in production mode
-    console.log('Starting Next.js production server...')
+    // For production, use static export
+    console.log('Using static export for production...')
     
-    nextProcess = spawn('npm', ['start'], {
+    // Start a simple HTTP server for the static files
+    nextProcess = spawn(process.execPath, ['-e', `
+      const { createServer } = require('http');
+      const { readFileSync } = require('fs');
+      const { extname, join } = require('path');
+      
+      const mimeTypes = {
+        '.html': 'text/html',
+        '.js': 'text/javascript',
+        '.css': 'text/css',
+        '.json': 'application/json',
+        '.png': 'image/png',
+        '.jpg': 'image/jpg',
+        '.gif': 'image/gif',
+        '.svg': 'image/svg+xml',
+        '.woff': 'application/font-woff',
+        '.ttf': 'application/font-ttf',
+        '.eot': 'application/vnd.ms-fontobject',
+        '.otf': 'application/font-otf',
+        '.wasm': 'application/wasm'
+      };
+      
+      const server = createServer((req, res) => {
+        let filePath = join(__dirname, '../out', req.url === '/' ? 'index.html' : req.url);
+        
+        try {
+          const ext = extname(filePath);
+          const contentType = mimeTypes[ext] || 'application/octet-stream';
+          
+          const content = readFileSync(filePath);
+          res.writeHead(200, { 'Content-Type': contentType });
+          res.end(content);
+        } catch (error) {
+          // Try to serve index.html for client-side routing
+          try {
+            const content = readFileSync(join(__dirname, '../out/index.html'));
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(content);
+          } catch (fallbackError) {
+            res.writeHead(404);
+            res.end('File not found');
+          }
+        }
+      });
+      
+      server.listen(3001, () => {
+        console.log('Static server running on port 3001');
+      });
+    `], {
       cwd: path.join(__dirname, '..'),
       env: { 
         ...process.env,

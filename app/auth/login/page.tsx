@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
+import { findMockUserByEmail, validateMockPassword, createMockSession } from '@/lib/mock-auth-client'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -37,17 +38,30 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginForm) => {
     setIsLoading(true)
     try {
-      const result = await signIn('credentials', {
-        email: data.email,
-        password: data.password,
-        redirect: false,
-      })
-
-      if (result?.error) {
-        toast.error('Invalid email or password')
+      // Check if we're in demo mode (static export)
+      if (process.env.NEXT_PUBLIC_DEMO_MODE === 'true') {
+        const user = findMockUserByEmail(data.email)
+        if (user && validateMockPassword(data.password)) {
+          createMockSession(user)
+          toast.success('Logged in successfully!')
+          router.push('/dashboard')
+        } else {
+          toast.error('Invalid email or password')
+        }
       } else {
-        toast.success('Logged in successfully!')
-        router.push('/dashboard')
+        // Use NextAuth for server-side authentication
+        const result = await signIn('credentials', {
+          email: data.email,
+          password: data.password,
+          redirect: false,
+        })
+
+        if (result?.error) {
+          toast.error('Invalid email or password')
+        } else {
+          toast.success('Logged in successfully!')
+          router.push('/dashboard')
+        }
       }
     } catch (error) {
       toast.error('An error occurred. Please try again.')
