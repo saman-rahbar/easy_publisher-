@@ -1,11 +1,23 @@
 # 🎓 Scholarly Publishing Platform
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-🚀%20Try%20It%20Now-blue?style=for-the-badge&logo=vercel)](https://easy-publisher-git-main-saman-rahbars-projects.vercel.app)
-[![Next.js](https://img.shields.io/badge/Next.js-14.0.4-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![Deployment Status](https://img.shields.io/badge/Deployment-✅%20Live-green?style=for-the-badge&logo=vercel)](https://easy-publisher-git-main-saman-rahbars-projects.vercel.app)
+[![Build Status](https://img.shields.io/badge/Build-✅%20Passing-green?style=for-the-badge&logo=github)](https://github.com/saman-rahbar/easy_publisher-/actions)
+[![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
+[![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge)](https://github.com/saman-rahbar/easy_publisher-/releases)
+[![Next.js](https://img.shields.io/badge/Next.js-13.5.6-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3.3-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.3.6-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![Prisma](https://img.shields.io/badge/Prisma-5.7.1-2D3748?style=for-the-badge&logo=prisma)](https://prisma.io/)
 
 > **A modern, comprehensive scholarly publishing platform with beautiful UI/UX that rivals and improves upon the PKP platform.**
+
+### 📊 **Project Status**
+- ✅ **Live Demo**: Fully functional and accessible
+- ✅ **Deployment**: Successfully deployed on Vercel
+- ✅ **Build Status**: All tests passing
+- ✅ **License**: MIT (Open Source)
+- ✅ **Version**: 1.0.0 (Production Ready)
 
 ## 🚀 Live Demo
 
@@ -68,7 +80,7 @@ Experience the platform with interactive features:
 
 | Technology | Version | Purpose |
 |------------|---------|---------|
-| **Next.js** | 14.0.4 | React framework |
+| **Next.js** | 13.5.6 | React framework |
 | **TypeScript** | 5.3.3 | Type safety |
 | **Tailwind CSS** | 3.3.6 | Styling |
 | **Prisma** | 5.7.1 | Database ORM |
@@ -258,6 +270,21 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <div align="center">
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+### 🐛 **Report Issues**
+Found a bug? Please [open an issue](https://github.com/saman-rahbar/easy_publisher-/issues) with detailed information.
+
+### 💡 **Feature Requests**
+Have an idea for a new feature? We'd love to hear it! [Submit a feature request](https://github.com/saman-rahbar/easy_publisher-/issues).
+
+### ⭐ **Star the Repository**
+If this project helps you, please give it a ⭐ on GitHub!
+
+---
 
 **Built with ❤️ for the academic community**
 
