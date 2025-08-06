@@ -11,7 +11,14 @@
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
     "vercel-build": "prisma generate && next build",
-    "demo-build": "prisma generate && next build"
+    "demo-build": "prisma generate && next build",
+    "electron:dev": "cd electron && npm run dev",
+    "electron:build": "cd electron && npm run build:electron",
+    "electron:dist": "cd electron && npm run dist",
+    "electron:pack": "cd electron && npm run pack",
+    "desktop:mac": "cd electron && npm run dist:mac",
+    "desktop:win": "cd electron && npm run dist:win",
+    "desktop:linux": "cd electron && npm run dist:linux"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",

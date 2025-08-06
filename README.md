@@ -126,6 +126,51 @@ Experience the platform with interactive features:
 6. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
+### 🖥️ Desktop Application
+
+#### **Option 1: Quick Setup (Mac/Linux)**
+```bash
+git clone https://github.com/saman-rahbar/easy_publisher-.git
+cd easy_publisher-
+./setup-desktop.sh
+```
+
+#### **Option 2: Quick Setup (Windows)**
+```cmd
+git clone https://github.com/saman-rahbar/easy_publisher-.git
+cd easy_publisher-
+setup-desktop.bat
+```
+
+#### **Option 3: Manual Setup**
+```bash
+# Install dependencies
+npm install
+
+# Setup Electron
+cd electron
+npm install
+cd ..
+
+# Build the application
+npm run build
+
+# Start desktop development
+npm run electron:dev
+```
+
+#### **Build for Distribution**
+```bash
+# Build for macOS (.dmg)
+npm run desktop:mac
+
+# Build for Windows (.exe)
+npm run desktop:win
+
+# Build for Linux (.AppImage)
+npm run desktop:linux
+```
+
 ## 📱 Platform Screenshots
 
 ### 🏠 Landing Page
