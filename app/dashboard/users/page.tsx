@@ -5,19 +5,22 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { 
   Users, 
+  Shield, 
+  Plus, 
   Search, 
-  Filter, 
-  Eye, 
-  Edit, 
+  Filter,
+  Eye,
+  Edit,
   Trash2,
-  Plus,
   Mail,
+  Phone,
   Building,
-  Calendar,
-  Shield
+  Calendar
 } from 'lucide-react'
+import { userActions } from '@/lib/actions'
 
 const mockUsers = [
   {
@@ -25,93 +28,62 @@ const mockUsers = [
     name: 'Dr. Sarah Johnson',
     email: 'sarah.johnson@university.edu',
     role: 'AUTHOR',
+    status: 'Active',
     institution: 'Stanford University',
     department: 'Computer Science',
-    status: 'active',
-    joinedAt: '2023-01-15',
     papers: 12,
     reviews: 8,
+    lastActive: '2024-01-15'
   },
   {
     id: '2',
-    name: 'Prof. David Kim',
-    email: 'david.kim@mit.edu',
+    name: 'Prof. Michael Chen',
+    email: 'michael.chen@research.org',
     role: 'REVIEWER',
+    status: 'Active',
     institution: 'MIT',
-    department: 'Electrical Engineering',
-    status: 'active',
-    joinedAt: '2023-02-20',
-    papers: 5,
-    reviews: 25,
+    department: 'Physics',
+    papers: 8,
+    reviews: 15,
+    lastActive: '2024-01-14'
   },
   {
     id: '3',
     name: 'Dr. Emily Rodriguez',
-    email: 'emily.rodriguez@berkeley.edu',
+    email: 'emily.rodriguez@college.edu',
     role: 'EDITOR',
-    institution: 'UC Berkeley',
-    department: 'Environmental Science',
-    status: 'active',
-    joinedAt: '2023-03-10',
-    papers: 8,
-    reviews: 15,
+    status: 'Active',
+    institution: 'Harvard University',
+    department: 'Biology',
+    papers: 5,
+    reviews: 22,
+    lastActive: '2024-01-13'
   },
   {
     id: '4',
-    name: 'Prof. Alex Thompson',
-    email: 'alex.thompson@harvard.edu',
+    name: 'Prof. David Kim',
+    email: 'david.kim@institute.edu',
     role: 'AUTHOR',
-    institution: 'Harvard University',
-    department: 'Finance',
-    status: 'inactive',
-    joinedAt: '2023-01-05',
+    status: 'Inactive',
+    institution: 'Caltech',
+    department: 'Mathematics',
     papers: 3,
-    reviews: 2,
+    reviews: 5,
+    lastActive: '2024-01-10'
   },
   {
     id: '5',
-    name: 'Dr. Maria Garcia',
-    email: 'maria.garcia@ucla.edu',
+    name: 'Dr. Lisa Wang',
+    email: 'lisa.wang@university.edu',
     role: 'REVIEWER',
-    institution: 'UCLA',
-    department: 'Education',
-    status: 'active',
-    joinedAt: '2023-04-15',
-    papers: 2,
+    status: 'Active',
+    institution: 'UC Berkeley',
+    department: 'Chemistry',
+    papers: 7,
     reviews: 18,
-  },
-  {
-    id: '6',
-    name: 'Prof. Michael Chen',
-    email: 'michael.chen@caltech.edu',
-    role: 'EDITOR',
-    institution: 'Caltech',
-    department: 'Physics',
-    status: 'active',
-    joinedAt: '2023-02-08',
-    papers: 15,
-    reviews: 32,
-  },
+    lastActive: '2024-01-12'
+  }
 ]
-
-const roleColors = {
-  AUTHOR: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-  REVIEWER: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-  EDITOR: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
-  ADMIN: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
-}
-
-const roleLabels = {
-  AUTHOR: 'Author',
-  REVIEWER: 'Reviewer',
-  EDITOR: 'Editor',
-  ADMIN: 'Admin',
-}
-
-const statusColors = {
-  active: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-  inactive: 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200',
-}
 
 export default function UsersPage() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -134,10 +106,13 @@ export default function UsersPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Users</h1>
+          <h1 className="text-3xl font-bold text-gradient">Users</h1>
           <p className="text-muted-foreground">Manage platform users and their roles</p>
         </div>
-        <Button>
+        <Button 
+          className="btn-primary"
+          onClick={() => userActions.addUser()}
+        >
           <Plus className="mr-2 h-4 w-4" />
           Add User
         </Button>
@@ -145,7 +120,7 @@ export default function UsersPage() {
 
       {/* Stats */}
       <div className="grid gap-4 md:grid-cols-4">
-        <Card>
+        <Card className="card-hover">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -156,7 +131,7 @@ export default function UsersPage() {
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="card-hover">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -167,7 +142,7 @@ export default function UsersPage() {
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="card-hover">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -178,7 +153,7 @@ export default function UsersPage() {
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="card-hover">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -192,132 +167,178 @@ export default function UsersPage() {
       </div>
 
       {/* Filters */}
-      <Card>
+      <Card className="card-hover">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Filter className="h-5 w-5" />
-            Filters
-          </CardTitle>
+          <CardTitle>Search & Filters</CardTitle>
+          <CardDescription>Find specific users or filter by role and status</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search users by name, email, or institution..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
+          <div className="grid gap-4 md:grid-cols-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search users..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
             </div>
-            <div className="sm:w-48">
+            <div>
+              <Label htmlFor="role-filter">Role</Label>
               <select
+                id="role-filter"
                 value={roleFilter}
                 onChange={(e) => setRoleFilter(e.target.value)}
-                className="w-full px-3 py-2 border border-input bg-background rounded-md text-sm"
+                className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary/20 focus:border-primary dark:bg-gray-800 dark:border-gray-600"
               >
                 <option value="ALL">All Roles</option>
                 <option value="AUTHOR">Authors</option>
                 <option value="REVIEWER">Reviewers</option>
                 <option value="EDITOR">Editors</option>
-                <option value="ADMIN">Admins</option>
               </select>
             </div>
-            <div className="sm:w-48">
+            <div>
+              <Label htmlFor="status-filter">Status</Label>
               <select
+                id="status-filter"
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="w-full px-3 py-2 border border-input bg-background rounded-md text-sm"
+                className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary/20 focus:border-primary dark:bg-gray-800 dark:border-gray-600"
               >
                 <option value="ALL">All Status</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
               </select>
+            </div>
+            <div className="flex items-end">
+              <Button 
+                variant="outline" 
+                className="w-full"
+                onClick={() => {
+                  setSearchTerm('')
+                  setRoleFilter('ALL')
+                  setStatusFilter('ALL')
+                }}
+              >
+                <Filter className="mr-2 h-4 w-4" />
+                Clear Filters
+              </Button>
             </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Users List */}
-      <Card>
+      <Card className="card-hover">
         <CardHeader>
-          <CardTitle>All Users</CardTitle>
-          <CardDescription>Manage user accounts and permissions</CardDescription>
+          <CardTitle>User Management</CardTitle>
+          <CardDescription>View and manage platform users</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {filteredUsers.map((user) => (
-              <div key={user.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-semibold">
-                      {user.name.split(' ').map(n => n[0]).join('')}
-                    </span>
+              <div key={user.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
+                <div className="flex items-center space-x-4">
+                  <div className="flex-shrink-0">
+                    <div className="h-10 w-10 rounded-full bg-gradient-to-r from-primary to-purple-600 flex items-center justify-center">
+                      <span className="text-white font-semibold">
+                        {user.name.split(' ').map(n => n[0]).join('')}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-semibold">{user.name}</h3>
-                      <Badge className={roleColors[user.role as keyof typeof roleColors]}>
-                        {roleLabels[user.role as keyof typeof roleLabels]}
-                      </Badge>
-                      <Badge className={statusColors[user.status as keyof typeof statusColors]}>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-sm font-semibold">{user.name}</h3>
+                      <Badge 
+                        variant={user.status === 'Active' ? 'default' : 'secondary'}
+                        className={
+                          user.status === 'Active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
+                          'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
+                        }
+                      >
                         {user.status}
                       </Badge>
+                      <Badge 
+                        variant="outline"
+                        className={
+                          user.role === 'AUTHOR' ? 'border-blue-200 text-blue-700 dark:border-blue-800 dark:text-blue-300' :
+                          user.role === 'REVIEWER' ? 'border-green-200 text-green-700 dark:border-green-800 dark:text-green-300' :
+                          'border-purple-200 text-purple-700 dark:border-purple-800 dark:text-purple-300'
+                        }
+                      >
+                        {user.role}
+                      </Badge>
                     </div>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <Mail className="h-4 w-4" />
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1">
+                      <span className="flex items-center gap-1">
+                        <Mail className="h-3 w-3" />
                         {user.email}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Building className="h-4 w-4" />
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Building className="h-3 w-3" />
                         {user.institution}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Calendar className="h-4 w-4" />
-                        Joined {user.joinedAt}
-                      </div>
+                      </span>
                     </div>
                     <div className="flex items-center gap-4 text-xs text-muted-foreground mt-1">
                       <span>{user.papers} papers</span>
                       <span>{user.reviews} reviews</span>
+                      <span className="flex items-center gap-1">
+                        <Calendar className="h-3 w-3" />
+                        Last active: {user.lastActive}
+                      </span>
                     </div>
                   </div>
                 </div>
                 
                 <div className="flex items-center gap-2">
-                  <Button variant="ghost" size="icon">
+                  <Button 
+                    variant="ghost" 
+                    size="icon"
+                    onClick={() => userActions.viewUser(user.id)}
+                    className="hover:bg-blue-100 dark:hover:bg-blue-900/20"
+                  >
                     <Eye className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="icon">
+                  <Button 
+                    variant="ghost" 
+                    size="icon"
+                    onClick={() => userActions.editUser(user.id)}
+                    className="hover:bg-green-100 dark:hover:bg-green-900/20"
+                  >
                     <Edit className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="icon" className="text-destructive">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="text-destructive hover:bg-red-100 dark:hover:bg-red-900/20"
+                    onClick={() => userActions.deleteUser(user.id)}
+                  >
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
             ))}
-          </div>
 
-          {filteredUsers.length === 0 && (
-            <div className="text-center py-12">
-              <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No users found</h3>
-              <p className="text-muted-foreground mb-4">
-                {searchTerm || roleFilter !== 'ALL' || statusFilter !== 'ALL'
-                  ? 'Try adjusting your search or filters'
-                  : 'No users have been added yet'
-                }
-              </p>
-              <Button>
-                <Plus className="mr-2 h-4 w-4" />
-                Add User
-              </Button>
-            </div>
-          )}
+            {filteredUsers.length === 0 && (
+              <div className="text-center py-12">
+                <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-semibold mb-2">No users found</h3>
+                <p className="text-muted-foreground mb-4">
+                  {searchTerm || roleFilter !== 'ALL' || statusFilter !== 'ALL'
+                    ? 'Try adjusting your search or filters'
+                    : 'No users have been added yet'
+                  }
+                </p>
+                <Button 
+                  className="btn-primary"
+                  onClick={() => userActions.addUser()}
+                >
+                  <Plus className="mr-2 h-4 w-4" />
+                  Add User
+                </Button>
+              </div>
+            )}
+          </div>
         </CardContent>
       </Card>
     </div>

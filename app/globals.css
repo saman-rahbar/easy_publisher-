@@ -4,22 +4,47 @@
 
 @layer base {
   :root {
+    /* Modern, accessible color palette */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
+    
+    /* Primary: Modern blue with excellent contrast */
+    --primary: 221 83% 53%;
     --primary-foreground: 210 40% 98%;
+    
+    /* Secondary: Subtle gray */
     --secondary: 210 40% 96%;
     --secondary-foreground: 222.2 84% 4.9%;
+    
+    /* Muted: For subtle text */
     --muted: 210 40% 96%;
     --muted-foreground: 215.4 16.3% 46.9%;
+    
+    /* Accent: For hover states */
     --accent: 210 40% 96%;
     --accent-foreground: 222.2 84% 4.9%;
-    --destructive: 0 84.2% 60.2%;
+    
+    /* Destructive: Modern red */
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
+    
+    /* Success: Modern green */
+    --success: 142 76% 36%;
+    --success-foreground: 210 40% 98%;
+    
+    /* Warning: Modern amber */
+    --warning: 38 92% 50%;
+    --warning-foreground: 222.2 84% 4.9%;
+    
+    /* Info: Modern blue */
+    --info: 221 83% 53%;
+    --info-foreground: 210 40% 98%;
+    
+    /* Border and input */
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
@@ -33,16 +58,40 @@
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
+    
+    /* Primary: Brighter blue for dark mode */
     --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 222.2 84% 4.9%;
+    
+    /* Secondary: Darker gray */
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
+    
+    /* Muted: Darker muted */
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
+    
+    /* Accent: Darker accent */
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
+    
+    /* Destructive: Darker red */
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
+    
+    /* Success: Darker green */
+    --success: 142 76% 26%;
+    --success-foreground: 210 40% 98%;
+    
+    /* Warning: Darker amber */
+    --warning: 38 92% 40%;
+    --warning-foreground: 222.2 84% 4.9%;
+    
+    /* Info: Darker blue */
+    --info: 217.2 91.2% 59.8%;
+    --info-foreground: 222.2 84% 4.9%;
+    
+    /* Border and input */
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 94.1%;
@@ -55,5 +104,36 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Custom utility classes for better UX */
+@layer utilities {
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-2 focus:ring-primary/20 transition-all duration-200;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 focus:ring-2 focus:ring-secondary/20 transition-all duration-200;
+  }
+  
+  .btn-success {
+    @apply bg-green-600 text-white hover:bg-green-700 focus:ring-2 focus:ring-green-500/20 transition-all duration-200;
+  }
+  
+  .btn-warning {
+    @apply bg-amber-500 text-white hover:bg-amber-600 focus:ring-2 focus:ring-amber-500/20 transition-all duration-200;
+  }
+  
+  .btn-destructive {
+    @apply bg-destructive text-destructive-foreground hover:bg-destructive/90 focus:ring-2 focus:ring-destructive/20 transition-all duration-200;
+  }
+  
+  .card-hover {
+    @apply hover:shadow-lg transition-all duration-200 hover:-translate-y-1;
+  }
+  
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent;
   }
 } 

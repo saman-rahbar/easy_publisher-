@@ -21,6 +21,7 @@ import {
   BarChart3,
   Plus
 } from 'lucide-react'
+import { navigationActions, notificationActions, searchActions, authActions } from '@/lib/actions'
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -38,7 +39,23 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
   const pathname = usePathname()
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      searchActions.performSearch(searchQuery)
+    }
+  }
+
+  const handleLogout = () => {
+    authActions.logout()
+  }
+
+  const handleNotificationClick = () => {
+    notificationActions.markAllAsRead()
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -47,7 +64,7 @@ export default function DashboardLayout({
         <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setSidebarOpen(false)} />
         <div className="fixed inset-y-0 left-0 flex w-64 flex-col bg-white dark:bg-gray-800">
           <div className="flex h-16 items-center justify-between px-4">
-            <h1 className="text-xl font-bold">Publishing Platform</h1>
+            <h1 className="text-xl font-bold text-gradient">Scholarly Publisher</h1>
             <Button
               variant="ghost"
               size="icon"
@@ -63,14 +80,15 @@ export default function DashboardLayout({
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md ${
+                  className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
                     isActive
-                      ? 'bg-blue-100 text-blue-900 dark:bg-blue-900 dark:text-blue-100'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
+                      ? 'bg-primary text-primary-foreground shadow-lg'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
                   }`}
-                  onClick={() => setSidebarOpen(false)}
                 >
-                  <item.icon className="mr-3 h-5 w-5" />
+                  <item.icon className={`mr-3 h-5 w-5 ${
+                    isActive ? 'text-primary-foreground' : 'text-gray-400 group-hover:text-gray-500'
+                  }`} />
                   {item.name}
                 </Link>
               )
@@ -83,7 +101,7 @@ export default function DashboardLayout({
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
         <div className="flex flex-col flex-grow bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
           <div className="flex h-16 items-center px-4">
-            <h1 className="text-xl font-bold">Publishing Platform</h1>
+            <h1 className="text-xl font-bold text-gradient">Scholarly Publisher</h1>
           </div>
           <nav className="flex-1 space-y-1 px-2 py-4">
             {navigation.map((item) => {
@@ -92,13 +110,15 @@ export default function DashboardLayout({
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md ${
+                  className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
                     isActive
-                      ? 'bg-blue-100 text-blue-900 dark:bg-blue-900 dark:text-blue-100'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
+                      ? 'bg-primary text-primary-foreground shadow-lg'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
                   }`}
                 >
-                  <item.icon className="mr-3 h-5 w-5" />
+                  <item.icon className={`mr-3 h-5 w-5 ${
+                    isActive ? 'text-primary-foreground' : 'text-gray-400 group-hover:text-gray-500'
+                  }`} />
                   {item.name}
                 </Link>
               )
@@ -107,7 +127,6 @@ export default function DashboardLayout({
         </div>
       </div>
 
-      {/* Main content */}
       <div className="lg:pl-64">
         {/* Top bar */}
         <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
@@ -121,31 +140,62 @@ export default function DashboardLayout({
           </Button>
 
           <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-            <div className="relative flex flex-1">
+            <form onSubmit={handleSearch} className="relative flex flex-1">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <Search className="h-5 w-5 text-gray-400" />
               </div>
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search papers, users, journals..."
-                className="block h-full w-full border-0 py-0 pl-10 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm dark:bg-gray-800 dark:text-white"
+                className="block h-full w-full border-0 py-0 pl-10 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 focus:border-primary sm:text-sm dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500"
               />
-            </div>
+              {searchQuery && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-0 top-0 h-full"
+                  onClick={() => {
+                    setSearchQuery('')
+                    searchActions.clearSearch()
+                  }}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              )}
+            </form>
           </div>
 
           <div className="flex items-center gap-x-4 lg:gap-x-6">
-            <Button variant="ghost" size="icon" className="relative">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="relative hover:bg-gray-100 dark:hover:bg-gray-700"
+              onClick={handleNotificationClick}
+            >
               <Bell className="h-5 w-5" />
-              <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 text-xs">
+              <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 text-xs bg-red-500 hover:bg-red-600">
                 3
               </Badge>
             </Button>
 
             <div className="flex items-center gap-x-4">
-              <Button variant="ghost" size="icon">
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="hover:bg-gray-100 dark:hover:bg-gray-700"
+                onClick={() => navigationActions.goToSettings()}
+              >
                 <User className="h-5 w-5" />
               </Button>
-              <Button variant="ghost" size="icon">
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="hover:bg-gray-100 dark:hover:bg-gray-700 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20"
+                onClick={handleLogout}
+              >
                 <LogOut className="h-5 w-5" />
               </Button>
             </div>

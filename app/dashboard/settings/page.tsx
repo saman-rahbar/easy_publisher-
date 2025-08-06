@@ -16,8 +16,15 @@ import {
   Mail,
   Key,
   User,
-  Save
+  Save,
+  RefreshCw,
+  Download,
+  Upload,
+  Lock,
+  Eye,
+  EyeOff
 } from 'lucide-react'
+import { settingsActions, authActions } from '@/lib/actions'
 
 export default function SettingsPage() {
   const [notifications, setNotifications] = useState({
@@ -46,323 +53,379 @@ export default function SettingsPage() {
     loginAttempts: '5',
   })
 
+  const [showPassword, setShowPassword] = useState(false)
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+
+  const handleSaveSettings = () => {
+    settingsActions.saveSettings({
+      notifications,
+      platformSettings,
+      securitySettings
+    })
+  }
+
+  const handleResetSettings = () => {
+    settingsActions.resetSettings()
+  }
+
+  const handleBackupData = () => {
+    settingsActions.backupData()
+  }
+
+  const handleRestoreData = () => {
+    settingsActions.restoreData()
+  }
+
+  const handleChangePassword = () => {
+    if (newPassword !== confirmPassword) {
+      alert('New passwords do not match!')
+      return
+    }
+    if (newPassword.length < 8) {
+      alert('Password must be at least 8 characters long!')
+      return
+    }
+    authActions.changePassword()
+  }
+
+  const handleEnableTwoFactor = () => {
+    authActions.enableTwoFactor()
+  }
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Settings</h1>
+          <h1 className="text-3xl font-bold text-gradient">Settings</h1>
           <p className="text-muted-foreground">Configure platform settings and preferences</p>
         </div>
-        <Button>
-          <Save className="mr-2 h-4 w-4" />
-          Save Changes
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            variant="outline"
+            onClick={handleResetSettings}
+          >
+            <RefreshCw className="mr-2 h-4 w-4" />
+            Reset to Default
+          </Button>
+          <Button 
+            className="btn-primary"
+            onClick={handleSaveSettings}
+          >
+            <Save className="mr-2 h-4 w-4" />
+            Save Changes
+          </Button>
+        </div>
       </div>
 
-      {/* Platform Settings */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Globe className="h-5 w-5" />
-            Platform Settings
-          </CardTitle>
-          <CardDescription>Configure basic platform information and behavior</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="siteName">Site Name</Label>
+      <div className="grid gap-6 md:grid-cols-2">
+        {/* Notification Settings */}
+        <Card className="card-hover">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Bell className="h-5 w-5" />
+              Notification Preferences
+            </CardTitle>
+            <CardDescription>Configure how you receive notifications</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="email-notifications">Email Notifications</Label>
+                <input
+                  id="email-notifications"
+                  type="checkbox"
+                  checked={notifications.email}
+                  onChange={(e) => setNotifications({...notifications, email: e.target.checked})}
+                  className="rounded border-gray-300 text-primary focus:ring-primary"
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="push-notifications">Push Notifications</Label>
+                <input
+                  id="push-notifications"
+                  type="checkbox"
+                  checked={notifications.push}
+                  onChange={(e) => setNotifications({...notifications, push: e.target.checked})}
+                  className="rounded border-gray-300 text-primary focus:ring-primary"
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="sms-notifications">SMS Notifications</Label>
+                <input
+                  id="sms-notifications"
+                  type="checkbox"
+                  checked={notifications.sms}
+                  onChange={(e) => setNotifications({...notifications, sms: e.target.checked})}
+                  className="rounded border-gray-300 text-primary focus:ring-primary"
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="paper-updates">Paper Updates</Label>
+                <input
+                  id="paper-updates"
+                  type="checkbox"
+                  checked={notifications.paperUpdates}
+                  onChange={(e) => setNotifications({...notifications, paperUpdates: e.target.checked})}
+                  className="rounded border-gray-300 text-primary focus:ring-primary"
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="review-requests">Review Requests</Label>
+                <input
+                  id="review-requests"
+                  type="checkbox"
+                  checked={notifications.reviewRequests}
+                  onChange={(e) => setNotifications({...notifications, reviewRequests: e.target.checked})}
+                  className="rounded border-gray-300 text-primary focus:ring-primary"
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="publication-alerts">Publication Alerts</Label>
+                <input
+                  id="publication-alerts"
+                  type="checkbox"
+                  checked={notifications.publicationAlerts}
+                  onChange={(e) => setNotifications({...notifications, publicationAlerts: e.target.checked})}
+                  className="rounded border-gray-300 text-primary focus:ring-primary"
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Platform Settings */}
+        <Card className="card-hover">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Globe className="h-5 w-5" />
+              Platform Configuration
+            </CardTitle>
+            <CardDescription>Configure platform-wide settings</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label htmlFor="site-name">Site Name</Label>
               <Input
-                id="siteName"
+                id="site-name"
                 value={platformSettings.siteName}
                 onChange={(e) => setPlatformSettings({...platformSettings, siteName: e.target.value})}
+                className="mt-1"
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="contactEmail">Contact Email</Label>
+            <div>
+              <Label htmlFor="site-description">Site Description</Label>
               <Input
-                id="contactEmail"
+                id="site-description"
+                value={platformSettings.siteDescription}
+                onChange={(e) => setPlatformSettings({...platformSettings, siteDescription: e.target.value})}
+                className="mt-1"
+              />
+            </div>
+            <div>
+              <Label htmlFor="contact-email">Contact Email</Label>
+              <Input
+                id="contact-email"
                 type="email"
                 value={platformSettings.contactEmail}
                 onChange={(e) => setPlatformSettings({...platformSettings, contactEmail: e.target.value})}
+                className="mt-1"
               />
             </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="siteDescription">Site Description</Label>
-            <Input
-              id="siteDescription"
-              value={platformSettings.siteDescription}
-              onChange={(e) => setPlatformSettings({...platformSettings, siteDescription: e.target.value})}
-            />
-          </div>
-          <div className="grid gap-4 md:grid-cols-3">
-            <div className="space-y-2">
-              <Label htmlFor="maxFileSize">Max File Size</Label>
+            <div>
+              <Label htmlFor="max-file-size">Maximum File Size</Label>
               <Input
-                id="maxFileSize"
+                id="max-file-size"
                 value={platformSettings.maxFileSize}
                 onChange={(e) => setPlatformSettings({...platformSettings, maxFileSize: e.target.value})}
+                className="mt-1"
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="reviewDeadline">Review Deadline (days)</Label>
+            <div>
+              <Label htmlFor="allowed-file-types">Allowed File Types</Label>
               <Input
-                id="reviewDeadline"
+                id="allowed-file-types"
+                value={platformSettings.allowedFileTypes}
+                onChange={(e) => setPlatformSettings({...platformSettings, allowedFileTypes: e.target.value})}
+                className="mt-1"
+              />
+            </div>
+            <div>
+              <Label htmlFor="review-deadline">Review Deadline (days)</Label>
+              <Input
+                id="review-deadline"
                 type="number"
                 value={platformSettings.reviewDeadline}
                 onChange={(e) => setPlatformSettings({...platformSettings, reviewDeadline: e.target.value})}
+                className="mt-1"
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="autoArchive">Auto Archive (days)</Label>
+            <div>
+              <Label htmlFor="auto-archive">Auto Archive (days)</Label>
               <Input
-                id="autoArchive"
+                id="auto-archive"
                 type="number"
                 value={platformSettings.autoArchive}
                 onChange={(e) => setPlatformSettings({...platformSettings, autoArchive: e.target.value})}
+                className="mt-1"
               />
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
 
-      {/* Notification Settings */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Bell className="h-5 w-5" />
-            Notification Settings
-          </CardTitle>
-          <CardDescription>Configure how you receive notifications</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-3">
-            <div className="flex items-center space-x-2">
+        {/* Security Settings */}
+        <Card className="card-hover">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Shield className="h-5 w-5" />
+              Security Settings
+            </CardTitle>
+            <CardDescription>Configure security and authentication settings</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="two-factor">Two-Factor Authentication</Label>
               <input
+                id="two-factor"
                 type="checkbox"
-                id="email"
-                checked={notifications.email}
-                onChange={(e) => setNotifications({...notifications, email: e.target.checked})}
-                className="rounded"
-              />
-              <Label htmlFor="email">Email Notifications</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                id="push"
-                checked={notifications.push}
-                onChange={(e) => setNotifications({...notifications, push: e.target.checked})}
-                className="rounded"
-              />
-              <Label htmlFor="push">Push Notifications</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                id="sms"
-                checked={notifications.sms}
-                onChange={(e) => setNotifications({...notifications, sms: e.target.checked})}
-                className="rounded"
-              />
-              <Label htmlFor="sms">SMS Notifications</Label>
-            </div>
-          </div>
-          <div className="border-t pt-4">
-            <h4 className="font-medium mb-3">Notification Types</h4>
-            <div className="grid gap-3 md:grid-cols-3">
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="paperUpdates"
-                  checked={notifications.paperUpdates}
-                  onChange={(e) => setNotifications({...notifications, paperUpdates: e.target.checked})}
-                  className="rounded"
-                />
-                <Label htmlFor="paperUpdates">Paper Status Updates</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="reviewRequests"
-                  checked={notifications.reviewRequests}
-                  onChange={(e) => setNotifications({...notifications, reviewRequests: e.target.checked})}
-                  className="rounded"
-                />
-                <Label htmlFor="reviewRequests">Review Requests</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="publicationAlerts"
-                  checked={notifications.publicationAlerts}
-                  onChange={(e) => setNotifications({...notifications, publicationAlerts: e.target.checked})}
-                  className="rounded"
-                />
-                <Label htmlFor="publicationAlerts">Publication Alerts</Label>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Security Settings */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Shield className="h-5 w-5" />
-            Security Settings
-          </CardTitle>
-          <CardDescription>Configure security and authentication settings</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                id="twoFactorAuth"
                 checked={securitySettings.twoFactorAuth}
                 onChange={(e) => setSecuritySettings({...securitySettings, twoFactorAuth: e.target.checked})}
-                className="rounded"
+                className="rounded border-gray-300 text-primary focus:ring-primary"
               />
-              <Label htmlFor="twoFactorAuth">Enable Two-Factor Authentication</Label>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="sessionTimeout">Session Timeout (hours)</Label>
+            <div>
+              <Label htmlFor="session-timeout">Session Timeout (hours)</Label>
               <Input
-                id="sessionTimeout"
+                id="session-timeout"
                 type="number"
                 value={securitySettings.sessionTimeout}
                 onChange={(e) => setSecuritySettings({...securitySettings, sessionTimeout: e.target.value})}
+                className="mt-1"
               />
             </div>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="passwordExpiry">Password Expiry (days)</Label>
+            <div>
+              <Label htmlFor="password-expiry">Password Expiry (days)</Label>
               <Input
-                id="passwordExpiry"
+                id="password-expiry"
                 type="number"
                 value={securitySettings.passwordExpiry}
                 onChange={(e) => setSecuritySettings({...securitySettings, passwordExpiry: e.target.value})}
+                className="mt-1"
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="loginAttempts">Max Login Attempts</Label>
+            <div>
+              <Label htmlFor="login-attempts">Max Login Attempts</Label>
               <Input
-                id="loginAttempts"
+                id="login-attempts"
                 type="number"
                 value={securitySettings.loginAttempts}
                 onChange={(e) => setSecuritySettings({...securitySettings, loginAttempts: e.target.value})}
+                className="mt-1"
               />
             </div>
-          </div>
-        </CardContent>
-      </Card>
+            <Button 
+              variant="outline" 
+              className="w-full"
+              onClick={handleEnableTwoFactor}
+            >
+              <Lock className="mr-2 h-4 w-4" />
+              Enable Two-Factor Auth
+            </Button>
+          </CardContent>
+        </Card>
 
-      {/* Database Settings */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Database className="h-5 w-5" />
-            Database Settings
-          </CardTitle>
-          <CardDescription>Database configuration and maintenance</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
+        {/* Password Change */}
+        <Card className="card-hover">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Key className="h-5 w-5" />
+              Change Password
+            </CardTitle>
+            <CardDescription>Update your account password</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
             <div>
-              <Label className="text-sm font-medium">Database Type</Label>
-              <p className="text-sm text-muted-foreground">SQLite (Development)</p>
+              <Label htmlFor="current-password">Current Password</Label>
+              <div className="relative mt-1">
+                <Input
+                  id="current-password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  className="pr-10"
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-0 top-0 h-full"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </Button>
+              </div>
             </div>
             <div>
-              <Label className="text-sm font-medium">Database Size</Label>
-              <p className="text-sm text-muted-foreground">2.4 MB</p>
+              <Label htmlFor="new-password">New Password</Label>
+              <Input
+                id="new-password"
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="mt-1"
+              />
             </div>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm">
-              Backup Database
+            <div>
+              <Label htmlFor="confirm-password">Confirm New Password</Label>
+              <Input
+                id="confirm-password"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="mt-1"
+              />
+            </div>
+            <Button 
+              className="w-full btn-primary"
+              onClick={handleChangePassword}
+            >
+              <Key className="mr-2 h-4 w-4" />
+              Change Password
             </Button>
-            <Button variant="outline" size="sm">
-              Optimize Database
-            </Button>
-            <Button variant="outline" size="sm">
-              Clear Cache
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
 
-      {/* Email Settings */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Mail className="h-5 w-5" />
-            Email Configuration
-          </CardTitle>
-          <CardDescription>Configure email server settings</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="smtpHost">SMTP Host</Label>
-              <Input id="smtpHost" placeholder="smtp.gmail.com" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="smtpPort">SMTP Port</Label>
-              <Input id="smtpPort" placeholder="587" />
-            </div>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="smtpUser">SMTP Username</Label>
-              <Input id="smtpUser" placeholder="your-email@gmail.com" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="smtpPass">SMTP Password</Label>
-              <Input id="smtpPass" type="password" placeholder="••••••••" />
-            </div>
-          </div>
-          <Button variant="outline" size="sm">
-            Test Email Configuration
-          </Button>
-        </CardContent>
-      </Card>
-
-      {/* API Settings */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Key className="h-5 w-5" />
-            API Configuration
-          </CardTitle>
-          <CardDescription>API keys and external service configuration</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="apiKey">API Key</Label>
-            <div className="flex gap-2">
-              <Input id="apiKey" type="password" value="sk-••••••••••••••••••••••••••••••••" />
-              <Button variant="outline" size="sm">Generate New</Button>
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="webhookUrl">Webhook URL</Label>
-            <Input id="webhookUrl" placeholder="https://your-domain.com/webhook" />
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm">
-              Test Webhook
+        {/* Data Management */}
+        <Card className="card-hover">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Database className="h-5 w-5" />
+              Data Management
+            </CardTitle>
+            <CardDescription>Backup and restore platform data</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Button 
+              variant="outline" 
+              className="w-full"
+              onClick={handleBackupData}
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Create Backup
             </Button>
-            <Button variant="outline" size="sm">
-              View API Documentation
+            <Button 
+              variant="outline" 
+              className="w-full"
+              onClick={handleRestoreData}
+            >
+              <Upload className="mr-2 h-4 w-4" />
+              Restore Data
             </Button>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 } 
