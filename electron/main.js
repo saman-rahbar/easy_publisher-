@@ -22,10 +22,15 @@ function createWindow() {
   })
 
   // Load the app
-  const startUrl = isDev 
-    ? 'http://localhost:3000' 
-    : `file://${path.join(__dirname, '../.next/server/app/index.html')}`
+  let startUrl
+  if (isDev) {
+    startUrl = 'http://localhost:3000'
+  } else {
+    // For production, use the local server
+    startUrl = 'http://localhost:3001'
+  }
   
+  console.log('Loading URL:', startUrl)
   mainWindow.loadURL(startUrl)
 
   // Show window when ready
@@ -50,6 +55,58 @@ function startNextServer() {
       cwd: path.join(__dirname, '..'),
       stdio: 'inherit',
     })
+  } else {
+    // For production, start a static server
+    const { createServer } = require('http')
+    const { readFileSync } = require('fs')
+    const { extname, join } = require('path')
+    
+    const mimeTypes = {
+      '.html': 'text/html',
+      '.js': 'text/javascript',
+      '.css': 'text/css',
+      '.json': 'application/json',
+      '.png': 'image/png',
+      '.jpg': 'image/jpg',
+      '.gif': 'image/gif',
+      '.svg': 'image/svg+xml',
+      '.wav': 'audio/wav',
+      '.mp4': 'video/mp4',
+      '.woff': 'application/font-woff',
+      '.ttf': 'application/font-ttf',
+      '.eot': 'application/vnd.ms-fontobject',
+      '.otf': 'application/font-otf',
+      '.wasm': 'application/wasm'
+    }
+    
+    const server = createServer((req, res) => {
+      let filePath = join(__dirname, '../.next/server/app', req.url === '/' ? 'index.html' : req.url)
+      
+      try {
+        const ext = extname(filePath)
+        const contentType = mimeTypes[ext] || 'application/octet-stream'
+        
+        const content = readFileSync(filePath)
+        res.writeHead(200, { 'Content-Type': contentType })
+        res.end(content)
+      } catch (error) {
+        // Try to serve index.html for client-side routing
+        try {
+          const content = readFileSync(join(__dirname, '../.next/server/app/index.html'))
+          res.writeHead(200, { 'Content-Type': 'text/html' })
+          res.end(content)
+        } catch (fallbackError) {
+          res.writeHead(404)
+          res.end('File not found')
+        }
+      }
+    })
+    
+    server.listen(3001, () => {
+      console.log('Static server running on port 3001')
+    })
+    
+    nextProcess = server
   }
 }
 
@@ -69,7 +126,8 @@ function createMenu() {
           label: 'Open Dashboard',
           accelerator: 'CmdOrCtrl+D',
           click: () => {
-            mainWindow.loadURL('http://localhost:3000/dashboard')
+            const dashboardUrl = isDev ? 'http://localhost:3000/dashboard' : 'http://localhost:3001/dashboard'
+            mainWindow.loadURL(dashboardUrl)
           }
         },
         { type: 'separator' },
