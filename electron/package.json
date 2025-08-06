@@ -25,7 +25,7 @@
     "files": [
       "main.js",
       "assets/**/*",
-      "../out/**/*",
+      "../.next/**/*",
       "../node_modules/**/*"
     ],
     "mac": {

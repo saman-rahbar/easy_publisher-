@@ -24,7 +24,7 @@ function createWindow() {
   // Load the app
   const startUrl = isDev 
     ? 'http://localhost:3000' 
-    : `file://${path.join(__dirname, '../out/index.html')}`
+    : `file://${path.join(__dirname, '../.next/server/app/index.html')}`
   
   mainWindow.loadURL(startUrl)
 
