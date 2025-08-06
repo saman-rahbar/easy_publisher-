@@ -1,49 +1,72 @@
-# Scholarly Publishing Platform
+# 🎓 Scholarly Publishing Platform
 
-A modern, comprehensive scholarly publishing platform built with Next.js 14, TypeScript, and Tailwind CSS. This platform provides all the essential features for academic publishing with a beautiful, user-friendly interface.
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-🚀%20Try%20It%20Now-blue?style=for-the-badge&logo=vercel)](https://scholarly-publishing-platform.vercel.app)
+[![Next.js](https://img.shields.io/badge/Next.js-14.0.4-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3.3-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.3.6-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 
-## 🚀 Features
+> **A modern, comprehensive scholarly publishing platform with beautiful UI/UX that rivals and improves upon the PKP platform.**
 
-### Core Publishing Features
-- **Paper Submission**: Drag-and-drop file uploads with automated formatting checks
-- **Peer Review System**: Anonymous reviewing with scoring and feedback
-- **Journal Management**: Create and manage multiple journals
-- **User Management**: Role-based access control (Authors, Reviewers, Editors, Admins)
-- **Paper Tracking**: Real-time status updates and progress tracking
-- **Analytics Dashboard**: Comprehensive metrics and reporting
+## 🚀 Live Demo
 
-### Modern UI/UX
-- **Responsive Design**: Works seamlessly on desktop, tablet, and mobile
-- **Dark/Light Mode**: Automatic theme switching with system preference detection
-- **Beautiful Charts**: Interactive analytics with Recharts
-- **Real-time Notifications**: Toast notifications and badge indicators
-- **Accessible**: WCAG compliant with keyboard navigation
+**[Click here to try the live demo!](https://scholarly-publishing-platform.vercel.app)**
 
-### Technical Features
-- **TypeScript**: Full type safety throughout the application
-- **Prisma ORM**: Type-safe database operations
-- **Next.js 14**: Latest React framework with App Router
-- **Tailwind CSS**: Utility-first CSS framework
-- **Radix UI**: Accessible component primitives
-- **Form Validation**: Zod schema validation with React Hook Form
+Experience the platform with interactive features:
+- ✨ **Real-time paper submissions**
+- 📊 **Interactive analytics dashboard**
+- 👥 **User management system**
+- 🔍 **Advanced search and filtering**
+- 📱 **Responsive design**
+
+## ✨ Features
+
+### 🎯 Core Publishing Features
+- **Paper Submission & Management** - Complete workflow from draft to publication
+- **Peer Review System** - Automated review assignment and tracking
+- **Editorial Dashboard** - Comprehensive management tools
+- **User Role Management** - Authors, Reviewers, Editors, Admins
+- **Real-time Notifications** - Status updates and alerts
+
+### 🎨 Modern UI/UX
+- **Beautiful Design** - Clean, professional interface
+- **Dark/Light Mode** - Automatic theme switching
+- **Responsive Layout** - Works on all devices
+- **Interactive Charts** - Data visualization with Recharts
+- **Accessible Components** - WCAG compliant
+
+### 🔧 Technical Excellence
+- **Next.js 14** - Latest React framework
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first styling
+- **Prisma ORM** - Database management
+- **NextAuth.js** - Authentication system
+- **Real-time Updates** - Live notifications
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: Next.js 14, React 18, TypeScript
-- **Styling**: Tailwind CSS, Radix UI
-- **Database**: SQLite (Prisma ORM)
-- **Authentication**: NextAuth.js
-- **Charts**: Recharts
-- **Forms**: React Hook Form + Zod
-- **Icons**: Lucide React
-- **Notifications**: Sonner
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **Next.js** | 14.0.4 | React framework |
+| **TypeScript** | 5.3.3 | Type safety |
+| **Tailwind CSS** | 3.3.6 | Styling |
+| **Prisma** | 5.7.1 | Database ORM |
+| **NextAuth.js** | 4.24.5 | Authentication |
+| **Recharts** | 2.8.0 | Data visualization |
+| **Radix UI** | Latest | Accessible components |
+| **Zod** | 3.22.4 | Schema validation |
 
-## 📦 Installation
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js >= 18.17.0
+- npm or yarn
+
+### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
-   cd scholarly-publishing-poc
+   git clone https://github.com/saman-rahbar/easy_publisher-.git
+   cd easy_publisher-
    ```
 
 2. **Install dependencies**
@@ -52,20 +75,16 @@ A modern, comprehensive scholarly publishing platform built with Next.js 14, Typ
    ```
 
 3. **Set up environment variables**
-   Create a `.env.local` file in the root directory:
-   ```env
-   DATABASE_URL="file:./dev.db"
-   NEXTAUTH_SECRET="your-secret-key-here"
-   NEXTAUTH_URL="http://localhost:3000"
+   ```bash
+   cp .env.example .env.local
    ```
 
 4. **Set up the database**
    ```bash
-   npx prisma generate
    npx prisma db push
    ```
 
-5. **Run the development server**
+5. **Start the development server**
    ```bash
    npm run dev
    ```
@@ -73,96 +92,89 @@ A modern, comprehensive scholarly publishing platform built with Next.js 14, Typ
 6. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
-## 🗄️ Database Schema
+## 📱 Platform Screenshots
 
-The platform uses a comprehensive database schema with the following main entities:
+### 🏠 Landing Page
+![Landing Page](https://via.placeholder.com/800x400/3B82F6/FFFFFF?text=Beautiful+Landing+Page)
 
-- **Users**: Authors, reviewers, editors, and administrators
-- **Papers**: Research papers with metadata and content
-- **Journals**: Publication venues with editorial teams
-- **Submissions**: Paper submissions to specific journals
-- **Reviews**: Peer review assignments and feedback
-- **Notifications**: System notifications for users
+### 📊 Dashboard
+![Dashboard](https://via.placeholder.com/800x400/10B981/FFFFFF?text=Interactive+Dashboard)
 
-## 🎯 Key Pages
+### 📝 Paper Management
+![Paper Management](https://via.placeholder.com/800x400/F59E0B/FFFFFF?text=Paper+Management+System)
 
-### Public Pages
-- **Landing Page** (`/`): Modern homepage with feature showcase
-- **Sign Up** (`/auth/signup`): User registration with role selection
-- **Sign In** (`/auth/login`): User authentication
+### 👥 User Management
+![User Management](https://via.placeholder.com/800x400/8B5CF6/FFFFFF?text=User+Management+Interface)
 
-### Dashboard Pages
-- **Dashboard** (`/dashboard`): Overview with analytics and recent activity
-- **My Papers** (`/dashboard/papers`): Author's paper management
-- **Submissions** (`/dashboard/submissions`): Editorial submission management
-- **Reviews** (`/dashboard/reviews`): Peer review assignments
-- **Analytics** (`/dashboard/analytics`): Detailed metrics and reports
-- **Users** (`/dashboard/users`): User management for admins
-- **Settings** (`/dashboard/settings`): Platform configuration
+## 🎯 Key Features Demo
 
-## 🎨 Design System
+### 📄 Paper Submission Workflow
+1. **Author submits paper** → Upload PDF, add metadata
+2. **Editor reviews** → Assign reviewers, track progress
+3. **Reviewers evaluate** → Provide feedback and ratings
+4. **Editor makes decision** → Accept, reject, or request revisions
+5. **Publication** → Final formatting and publishing
 
-The platform uses a comprehensive design system with:
+### 📊 Analytics Dashboard
+- **Real-time metrics** - Submissions, publications, reviews
+- **Interactive charts** - Monthly trends, status distribution
+- **Performance insights** - Review times, acceptance rates
+- **User activity** - Registration, engagement metrics
 
-- **Color Palette**: Semantic colors for different states and actions
-- **Typography**: Consistent font hierarchy and spacing
-- **Components**: Reusable UI components with variants
-- **Spacing**: Consistent spacing scale using Tailwind's spacing system
-- **Animations**: Smooth transitions and micro-interactions
+### 👥 User Management
+- **Role-based access** - Different permissions per role
+- **Profile management** - Edit personal information
+- **Activity tracking** - View submission and review history
+- **Communication** - Internal messaging system
 
-## 🔧 Development
-
-### Available Scripts
-
-```bash
-# Development
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run start        # Start production server
-npm run lint         # Run ESLint
-
-# Database
-npm run db:generate  # Generate Prisma client
-npm run db:push      # Push schema to database
-npm run db:studio    # Open Prisma Studio
-```
-
-### Project Structure
+## 🏗️ Project Structure
 
 ```
 scholarly-publishing-poc/
-├── app/                    # Next.js App Router pages
+├── app/                    # Next.js app directory
 │   ├── auth/              # Authentication pages
 │   ├── dashboard/         # Dashboard pages
-│   ├── globals.css        # Global styles
-│   ├── layout.tsx         # Root layout
-│   └── page.tsx           # Landing page
-├── components/            # React components
-│   ├── ui/               # Reusable UI components
+│   ├── api/              # API routes
+│   └── globals.css       # Global styles
+├── components/            # Reusable components
+│   ├── ui/               # UI components
 │   └── providers.tsx     # Context providers
 ├── lib/                  # Utility functions
-├── prisma/               # Database schema and migrations
-├── public/               # Static assets
-└── package.json          # Dependencies and scripts
+├── prisma/               # Database schema
+└── public/               # Static assets
+```
+
+## 🔐 Authentication
+
+The platform supports multiple user roles:
+
+- **Authors** - Submit and manage papers
+- **Reviewers** - Evaluate submissions
+- **Editors** - Manage submissions and make decisions
+- **Admins** - Platform administration
+
+## 📊 Database Schema
+
+```sql
+-- Core entities
+User (id, name, email, role, institution)
+Paper (id, title, abstract, status, authorId)
+Submission (id, paperId, journalId, status)
+Review (id, paperId, reviewerId, rating, comments)
+Journal (id, title, description, editorId)
 ```
 
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
-
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Add environment variables in Vercel dashboard
-4. Deploy automatically on push
+1. Connect your GitHub repository to Vercel
+2. Set environment variables
+3. Deploy automatically on push
 
 ### Other Platforms
-
-The application can be deployed to any platform that supports Next.js:
-
-- **Netlify**: Use the Next.js build plugin
-- **Railway**: Direct deployment from GitHub
-- **DigitalOcean App Platform**: Containerized deployment
-- **AWS/GCP**: Custom server deployment
+- **Netlify** - Static hosting
+- **Railway** - Full-stack deployment
+- **DigitalOcean** - VPS deployment
 
 ## 🤝 Contributing
 
@@ -178,15 +190,23 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **PKP (Public Knowledge Project)**: Inspiration from the original OJS platform
-- **Next.js Team**: For the amazing React framework
-- **Tailwind CSS**: For the utility-first CSS framework
-- **Radix UI**: For accessible component primitives
+- **PKP (Public Knowledge Project)** - Inspiration for scholarly publishing
+- **Next.js Team** - Amazing React framework
+- **Tailwind CSS** - Utility-first CSS framework
+- **Vercel** - Deployment platform
 
 ## 📞 Support
 
-For support, email support@yourplatform.com or join our Slack channel.
+- **Email**: support@scholarlyplatform.com
+- **Documentation**: [docs.scholarlyplatform.com](https://docs.scholarlyplatform.com)
+- **Issues**: [GitHub Issues](https://github.com/saman-rahbar/easy_publisher-/issues)
 
 ---
 
-Built with ❤️ for the academic community 
+<div align="center">
+
+**Built with ❤️ for the academic community**
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-🚀%20Try%20It%20Now-blue?style=for-the-badge&logo=vercel)](https://scholarly-publishing-platform.vercel.app)
+
+</div> 

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { DemoBanner } from '@/components/demo-banner'
 import { 
   FileText, 
   Users, 
@@ -49,6 +50,11 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Demo Banner Section */}
+      <section className="py-20 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900">
+        <DemoBanner />
       </section>
 
       {/* Features Section */}
