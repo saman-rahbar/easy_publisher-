@@ -32,9 +32,29 @@
 
 ### **🖥️ Direct Downloads**
 
-**[Download for macOS (.dmg)](https://github.com/saman-rahbar/easy_publisher-/releases/latest/download/scholarly-publisher-mac.dmg)**
-**[Download for Windows (.exe)](https://github.com/saman-rahbar/easy_publisher-/releases/latest/download/scholarly-publisher-win.exe)**
-**[Download for Linux (.AppImage)](https://github.com/saman-rahbar/easy_publisher-/releases/latest/download/scholarly-publisher-linux.AppImage)**
+> **📋 Status**: Installers will be available after creating a GitHub release
+> 
+> **[Download for macOS (.dmg)](https://github.com/saman-rahbar/easy_publisher-/releases/latest/download/scholarly-publisher-mac.dmg)** *(Coming Soon)*
+> **[Download for Windows (.exe)](https://github.com/saman-rahbar/easy_publisher-/releases/latest/download/scholarly-publisher-win.exe)** *(Coming Soon)*
+> **[Download for Linux (.AppImage)](https://github.com/saman-rahbar/easy_publisher-/releases/latest/download/scholarly-publisher-linux.AppImage)** *(Coming Soon)*
+
+### **🚀 How to Get Installers**
+
+#### **Option 1: Build Locally (Recommended)**
+```bash
+# Fix Node.js version first
+./fix-node-version.sh
+
+# Build installers
+./build-installers.sh
+```
+
+#### **Option 2: Create GitHub Release**
+1. Go to [GitHub Releases](https://github.com/saman-rahbar/easy_publisher-/releases)
+2. Click "Create a new release"
+3. Tag: `v1.0.0`
+4. Title: `Scholarly Publisher v1.0.0`
+5. GitHub Actions will automatically build installers
 
 ### **💡 Installation Instructions**
 
