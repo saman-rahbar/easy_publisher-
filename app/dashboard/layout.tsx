@@ -19,13 +19,15 @@ import {
   BookOpen,
   MessageSquare,
   BarChart3,
-  Plus
+  Plus,
+  Code
 } from 'lucide-react'
 import { navigationActions, notificationActions, searchActions, authActions } from '@/lib/actions'
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'My Papers', href: '/dashboard/papers', icon: FileText },
+  { name: 'LaTeX Editor', href: '/dashboard/latex-editor', icon: Code },
   { name: 'Submissions', href: '/dashboard/submissions', icon: BookOpen },
   { name: 'Reviews', href: '/dashboard/reviews', icon: MessageSquare },
   { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart3 },

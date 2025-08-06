@@ -43,6 +43,27 @@ export const paperActions = {
     }, 1000)
   },
   
+  createNewPaper: () => {
+    toast.info('Creating new paper...')
+    setTimeout(() => {
+      toast.success('New paper created!')
+    }, 1000)
+  },
+  
+  searchExternalPapers: (query: string) => {
+    toast.info(`Searching external sources for "${query}"...`)
+    setTimeout(() => {
+      toast.success(`Found papers related to "${query}"!`)
+    }, 2000)
+  },
+  
+  addPaper: (paper: any) => {
+    toast.info('Adding paper to library...')
+    setTimeout(() => {
+      toast.success('Paper added to your library!')
+    }, 1000)
+  },
+  
   viewPaper: (paperId: string) => {
     toast.info(`Opening paper ${paperId}...`)
     // In a real app, this would open the paper details
@@ -80,22 +101,36 @@ export const paperActions = {
     setTimeout(() => {
       toast.success('Paper published successfully!')
     }, 2000)
+  },
+  
+  compileLaTeX: (documentId: string) => {
+    toast.info(`Compiling LaTeX document ${documentId}...`)
+    setTimeout(() => {
+      toast.success('LaTeX document compiled successfully!')
+    }, 3000)
+  },
+  
+  saveLaTeXDocument: (documentId: string) => {
+    toast.info(`Saving LaTeX document ${documentId}...`)
+    setTimeout(() => {
+      toast.success('LaTeX document saved!')
+    }, 1000)
+  },
+  
+  downloadPDF: (documentId: string) => {
+    toast.info(`Downloading PDF for document ${documentId}...`)
+    setTimeout(() => {
+      toast.success('PDF downloaded successfully!')
+    }, 2000)
   }
 }
 
 // Review management actions
 export const reviewActions = {
-  assignReviewers: () => {
-    toast.info('Opening reviewer assignment...')
-    setTimeout(() => {
-      toast.success('Reviewers assigned successfully!')
-    }, 1500)
-  },
-  
   startReview: (reviewId: string) => {
     toast.info(`Starting review ${reviewId}...`)
     setTimeout(() => {
-      toast.success('Review started!')
+      toast.success('Review form opened!')
     }, 1000)
   },
   
@@ -106,11 +141,39 @@ export const reviewActions = {
     }, 2000)
   },
   
-  viewReview: (reviewId: string) => {
-    toast.info(`Opening review ${reviewId}...`)
+  viewPaper: (paperId: string) => {
+    toast.info(`Opening paper ${paperId}...`)
     setTimeout(() => {
-      toast.success('Review opened!')
+      toast.success('Paper opened for review!')
     }, 1000)
+  },
+  
+  downloadPaper: (paperId: string) => {
+    toast.info(`Downloading paper ${paperId}...`)
+    setTimeout(() => {
+      toast.success('Paper downloaded for offline review!')
+    }, 2000)
+  },
+  
+  acceptReview: (reviewId: string) => {
+    toast.info(`Accepting review ${reviewId}...`)
+    setTimeout(() => {
+      toast.success('Review accepted!')
+    }, 1000)
+  },
+  
+  declineReview: (reviewId: string) => {
+    toast.info(`Declining review ${reviewId}...`)
+    setTimeout(() => {
+      toast.success('Review declined!')
+    }, 1000)
+  },
+  
+  requestExtension: (reviewId: string) => {
+    toast.info(`Requesting extension for review ${reviewId}...`)
+    setTimeout(() => {
+      toast.success('Extension requested!')
+    }, 2000)
   }
 }
 
