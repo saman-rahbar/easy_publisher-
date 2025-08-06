@@ -1,6 +1,6 @@
 # 🎓 Scholarly Publishing Platform
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-🚀%20Try%20It%20Now-blue?style=for-the-badge&logo=vercel)](https://scholarly-publishing-platform.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-🚀%20Run%20Locally-blue?style=for-the-badge&logo=github)](https://github.com/saman-rahbar/easy_publisher-)
 [![Next.js](https://img.shields.io/badge/Next.js-14.0.4-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3.3-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.3.6-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
@@ -9,7 +9,9 @@
 
 ## 🚀 Live Demo
 
-**[Click here to try the live demo!](https://scholarly-publishing-platform.vercel.app)**
+**[Click here to run locally!](https://github.com/saman-rahbar/easy_publisher-)**
+
+> **Note**: To run the demo locally, follow the installation instructions below.
 
 Experience the platform with interactive features:
 - ✨ **Real-time paper submissions**
@@ -167,9 +169,41 @@ Journal (id, title, description, editorId)
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
-1. Connect your GitHub repository to Vercel
-2. Set environment variables
-3. Deploy automatically on push
+1. **Install Vercel CLI**: `npm i -g vercel`
+2. **Login to Vercel**: `vercel login`
+3. **Deploy**: `vercel --yes`
+4. **Set environment variables** in Vercel dashboard:
+   - `DATABASE_URL` (use Vercel Postgres or external database)
+   - `NEXTAUTH_SECRET` (generate with `openssl rand -base64 32`)
+   - `NEXTAUTH_URL` (your Vercel deployment URL)
+
+### Quick Start (Local Demo):
+```bash
+# Clone and run in one command
+git clone https://github.com/saman-rahbar/easy_publisher-.git
+cd easy_publisher-
+./demo.sh
+```
+
+### Manual Deployment Steps:
+```bash
+# 1. Clone the repository
+git clone https://github.com/saman-rahbar/easy_publisher-.git
+cd easy_publisher-
+
+# 2. Install dependencies
+npm install
+
+# 3. Set up environment variables
+cp env.example .env.local
+# Edit .env.local with your configuration
+
+# 4. Set up database
+npx prisma db push
+
+# 5. Start development server
+npm run dev
+```
 
 ### Other Platforms
 - **Netlify** - Static hosting
@@ -207,6 +241,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Built with ❤️ for the academic community**
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-🚀%20Try%20It%20Now-blue?style=for-the-badge&logo=vercel)](https://scholarly-publishing-platform.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-🚀%20Run%20Locally-blue?style=for-the-badge&logo=github)](https://github.com/saman-rahbar/easy_publisher-)
 
 </div> 
