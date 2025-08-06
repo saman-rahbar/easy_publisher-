@@ -1,6 +1,6 @@
 # 🎓 Scholarly Publishing Platform
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-🚀%20Run%20Locally-blue?style=for-the-badge&logo=github)](https://github.com/saman-rahbar/easy_publisher-)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-🚀%20Try%20It%20Now-blue?style=for-the-badge&logo=vercel)](https://easy-publisher-git-main-saman-rahbars-projects.vercel.app)
 [![Next.js](https://img.shields.io/badge/Next.js-14.0.4-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3.3-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.3.6-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
@@ -9,9 +9,12 @@
 
 ## 🚀 Live Demo
 
-**[Click here to run locally!](https://github.com/saman-rahbar/easy_publisher-)**
+**[Click here to try the live demo!](https://easy-publisher-git-main-saman-rahbars-projects.vercel.app)**
 
-> **Note**: To run the demo locally, follow the installation instructions below.
+> **Demo Credentials**: 
+> - **Admin**: `admin@demo.com` / any password
+> - **Editor**: `editor@demo.com` / any password  
+> - **Reviewer**: `reviewer@demo.com` / any password
 
 Experience the platform with interactive features:
 - ✨ **Real-time paper submissions**
@@ -19,6 +22,23 @@ Experience the platform with interactive features:
 - 👥 **User management system**
 - 🔍 **Advanced search and filtering**
 - 📱 **Responsive design**
+
+### 🎯 **Quick Start - Live Demo**
+1. **Click the "Try It Now" button above** or visit: https://easy-publisher-git-main-saman-rahbars-projects.vercel.app
+2. **Login with demo credentials**:
+   - **Admin User**: `admin@demo.com` / any password
+   - **Editor User**: `editor@demo.com` / any password
+   - **Reviewer User**: `reviewer@demo.com` / any password
+3. **Explore all features** without any setup required!
+
+### 🔐 **Demo Features Available**
+- ✅ **Full Authentication System** (Login/Logout)
+- ✅ **Role-based Dashboard** (Admin/Editor/Reviewer views)
+- ✅ **Paper Management** (Submit, Review, Track)
+- ✅ **User Management** (Add, Edit, Delete users)
+- ✅ **Analytics & Reports** (Charts, Statistics)
+- ✅ **Settings & Configuration**
+- ✅ **Responsive Design** (Mobile-friendly)
 
 ## ✨ Features
 
@@ -241,6 +261,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Built with ❤️ for the academic community**
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-🚀%20Run%20Locally-blue?style=for-the-badge&logo=github)](https://github.com/saman-rahbar/easy_publisher-)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-🚀%20Try%20It%20Now-blue?style=for-the-badge&logo=vercel)](https://easy-publisher-git-main-saman-rahbars-projects.vercel.app)
 
 </div> 
