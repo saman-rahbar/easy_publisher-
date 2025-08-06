@@ -95,62 +95,66 @@ function startNextServer() {
     console.log('Using static export for production...')
     
     // Start a simple HTTP server for the static files
-    nextProcess = spawn(process.execPath, ['-e', `
-      const { createServer } = require('http');
-      const { readFileSync } = require('fs');
-      const { extname, join } = require('path');
+    const { createServer } = require('http');
+    const { readFileSync, existsSync } = require('fs');
+    const { extname, join } = require('path');
+    
+    const staticDir = join(__dirname, '../out');
+    console.log('Static directory:', staticDir);
+    
+    const mimeTypes = {
+      '.html': 'text/html',
+      '.js': 'text/javascript',
+      '.css': 'text/css',
+      '.json': 'application/json',
+      '.png': 'image/png',
+      '.jpg': 'image/jpg',
+      '.gif': 'image/gif',
+      '.svg': 'image/svg+xml',
+      '.woff': 'application/font-woff',
+      '.ttf': 'application/font-ttf',
+      '.eot': 'application/vnd.ms-fontobject',
+      '.otf': 'application/font-otf',
+      '.wasm': 'application/wasm'
+    };
+    
+    const server = createServer((req, res) => {
+      let filePath = join(staticDir, req.url === '/' ? 'index.html' : req.url);
       
-      const mimeTypes = {
-        '.html': 'text/html',
-        '.js': 'text/javascript',
-        '.css': 'text/css',
-        '.json': 'application/json',
-        '.png': 'image/png',
-        '.jpg': 'image/jpg',
-        '.gif': 'image/gif',
-        '.svg': 'image/svg+xml',
-        '.woff': 'application/font-woff',
-        '.ttf': 'application/font-ttf',
-        '.eot': 'application/vnd.ms-fontobject',
-        '.otf': 'application/font-otf',
-        '.wasm': 'application/wasm'
-      };
+      console.log('Request:', req.url, 'File path:', filePath);
       
-      const server = createServer((req, res) => {
-        let filePath = join(__dirname, '../out', req.url === '/' ? 'index.html' : req.url);
-        
-        try {
+      try {
+        if (existsSync(filePath)) {
           const ext = extname(filePath);
           const contentType = mimeTypes[ext] || 'application/octet-stream';
           
           const content = readFileSync(filePath);
           res.writeHead(200, { 'Content-Type': contentType });
           res.end(content);
-        } catch (error) {
+        } else {
           // Try to serve index.html for client-side routing
-          try {
-            const content = readFileSync(join(__dirname, '../out/index.html'));
+          const fallbackPath = join(staticDir, 'index.html');
+          if (existsSync(fallbackPath)) {
+            const content = readFileSync(fallbackPath);
             res.writeHead(200, { 'Content-Type': 'text/html' });
             res.end(content);
-          } catch (fallbackError) {
+          } else {
+            console.error('File not found:', filePath);
             res.writeHead(404);
             res.end('File not found');
           }
         }
-      });
-      
-      server.listen(3001, () => {
-        console.log('Static server running on port 3001');
-      });
-    `], {
-      cwd: path.join(__dirname, '..'),
-      env: { 
-        ...process.env,
-        PORT: '3001',
-        NODE_ENV: 'production'
-      },
-      stdio: 'inherit',
-    })
+      } catch (error) {
+        console.error('Error serving file:', error);
+        res.writeHead(500);
+        res.end('Internal server error');
+      }
+    });
+    
+    server.listen(3001, () => {
+      console.log('Static server running on port 3001');
+      console.log('Serving files from:', staticDir);
+    });
   }
 }
 
