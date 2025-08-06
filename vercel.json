@@ -1,0 +1,14 @@
+{
+  "buildCommand": "npm run demo-build",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "functions": {
+    "app/api/auth/[...nextauth]/route.js": {
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "NEXT_PUBLIC_DEMO_MODE": "true",
+    "NEXTAUTH_SECRET": "demo-secret-key-for-vercel-deployment"
+  }
+} 

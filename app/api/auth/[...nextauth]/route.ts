@@ -1,8 +1,9 @@
-import NextAuth, { DefaultSession } from 'next-auth'
+import NextAuth from 'next-auth'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import bcrypt from 'bcryptjs'
 import { prisma } from '@/lib/prisma'
+import bcrypt from 'bcryptjs'
+import { findUserByEmail, validatePassword } from '@/lib/mock-auth'
 
 declare module 'next-auth' {
   interface Session {
@@ -37,30 +38,50 @@ const handler = NextAuth({
           return null
         }
 
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email
+        // Use mock authentication in demo mode
+        if (process.env.NEXT_PUBLIC_DEMO_MODE === 'true') {
+          const mockUser = findUserByEmail(credentials.email)
+          if (mockUser && validatePassword(credentials.password)) {
+            return {
+              id: mockUser.id,
+              email: mockUser.email,
+              name: mockUser.name,
+              role: mockUser.role
+            }
           }
-        })
-
-        if (!user || !user.password) {
           return null
         }
 
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        )
+        // Use real database authentication
+        try {
+          const user = await prisma.user.findUnique({
+            where: {
+              email: credentials.email
+            }
+          })
 
-        if (!isPasswordValid) {
+          if (!user) {
+            return null
+          }
+
+          const isPasswordValid = await bcrypt.compare(
+            credentials.password,
+            user.password
+          )
+
+          if (!isPasswordValid) {
+            return null
+          }
+
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role
+          }
+        } catch (error) {
+          console.error('Auth error:', error)
           return null
-        }
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
         }
       }
     })
@@ -78,13 +99,13 @@ const handler = NextAuth({
     async session({ session, token }) {
       if (token) {
         session.user.id = token.sub!
-        session.user.role = token.role as string
+        session.user.role = token.role
       }
       return session
     }
   },
   pages: {
-    signIn: '/auth/login',
+    signIn: '/auth/login'
   }
 })
 
