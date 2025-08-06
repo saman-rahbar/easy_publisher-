@@ -50,63 +50,31 @@ function createWindow() {
 }
 
 function startNextServer() {
+  // Set demo mode environment variable for Electron
+  process.env.NEXT_PUBLIC_DEMO_MODE = 'true'
+  process.env.NEXTAUTH_SECRET = 'demo-secret-key-for-electron-app'
+  process.env.DATABASE_URL = 'file:./dev.db'
+  
   if (isDev) {
     nextProcess = spawn('npm', ['run', 'dev'], {
       cwd: path.join(__dirname, '..'),
       stdio: 'inherit',
+      env: { ...process.env }
     })
   } else {
-    // For production, start a static server
-    const { createServer } = require('http')
-    const { readFileSync } = require('fs')
-    const { extname, join } = require('path')
+    // For production, start the Next.js standalone server
+    const serverPath = path.join(__dirname, '..', '.next', 'standalone', 'server.js')
+    console.log(`Starting Next.js production server from: ${serverPath}`)
     
-    const mimeTypes = {
-      '.html': 'text/html',
-      '.js': 'text/javascript',
-      '.css': 'text/css',
-      '.json': 'application/json',
-      '.png': 'image/png',
-      '.jpg': 'image/jpg',
-      '.gif': 'image/gif',
-      '.svg': 'image/svg+xml',
-      '.wav': 'audio/wav',
-      '.mp4': 'video/mp4',
-      '.woff': 'application/font-woff',
-      '.ttf': 'application/font-ttf',
-      '.eot': 'application/vnd.ms-fontobject',
-      '.otf': 'application/font-otf',
-      '.wasm': 'application/wasm'
-    }
-    
-    const server = createServer((req, res) => {
-      let filePath = join(__dirname, '../.next/server/app', req.url === '/' ? 'index.html' : req.url)
-      
-      try {
-        const ext = extname(filePath)
-        const contentType = mimeTypes[ext] || 'application/octet-stream'
-        
-        const content = readFileSync(filePath)
-        res.writeHead(200, { 'Content-Type': contentType })
-        res.end(content)
-      } catch (error) {
-        // Try to serve index.html for client-side routing
-        try {
-          const content = readFileSync(join(__dirname, '../.next/server/app/index.html'))
-          res.writeHead(200, { 'Content-Type': 'text/html' })
-          res.end(content)
-        } catch (fallbackError) {
-          res.writeHead(404)
-          res.end('File not found')
-        }
-      }
+    nextProcess = spawn(process.execPath, [serverPath], {
+      cwd: path.join(__dirname, '..'),
+      env: { 
+        ...process.env,
+        PORT: '3001',
+        NODE_ENV: 'production'
+      },
+      stdio: 'inherit',
     })
-    
-    server.listen(3001, () => {
-      console.log('Static server running on port 3001')
-    })
-    
-    nextProcess = server
   }
 }
 
