@@ -28,6 +28,40 @@
 > - **Editor**: `editor@demo.com` / any password  
 > - **Reviewer**: `reviewer@demo.com` / any password
 
+## 📦 Download Desktop App
+
+### **🖥️ Direct Downloads**
+
+**[Download for macOS (.dmg)](https://github.com/saman-rahbar/easy_publisher-/releases/latest/download/scholarly-publisher-mac.dmg)**
+**[Download for Windows (.exe)](https://github.com/saman-rahbar/easy_publisher-/releases/latest/download/scholarly-publisher-win.exe)**
+**[Download for Linux (.AppImage)](https://github.com/saman-rahbar/easy_publisher-/releases/latest/download/scholarly-publisher-linux.AppImage)**
+
+### **💡 Installation Instructions**
+
+#### **macOS Users:**
+1. Download the `.dmg` file
+2. Double-click to open
+3. Drag the app to Applications folder
+4. Launch from Applications menu
+
+#### **Windows Users:**
+1. Download the `.exe` file
+2. Double-click to run installer
+3. Follow the installation wizard
+4. Launch from Start menu
+
+#### **Linux Users:**
+1. Download the `.AppImage` file
+2. Make it executable: `chmod +x scholarly-publisher-linux.AppImage`
+3. Double-click to run
+
+### **🔧 System Requirements**
+- **macOS**: 10.14+ (Mojave or later)
+- **Windows**: 10+ (64-bit)
+- **Linux**: Ubuntu 18.04+ or equivalent
+- **RAM**: 4GB minimum
+- **Storage**: 500MB free space
+
 Experience the platform with interactive features:
 - ✨ **Real-time paper submissions**
 - 📊 **Interactive analytics dashboard**
@@ -175,6 +209,15 @@ npm run desktop:win
 
 # Build for Linux (.AppImage)
 npm run desktop:linux
+```
+
+#### **Quick Build Scripts**
+```bash
+# Build for current platform (Mac/Linux)
+./build-installers.sh
+
+# Build for current platform (Windows)
+build-installers.bat
 ```
 
 ## 📱 Platform Screenshots
