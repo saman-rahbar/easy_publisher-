@@ -95,6 +95,12 @@ Experience the platform with interactive features:
 - Node.js >= 18.17.0
 - npm or yarn
 
+> **⚠️ Node.js Version Issue?** 
+> If you're getting "Node.js version >= v18.17.0 is required" error, run:
+> ```bash
+> ./upgrade-node.sh
+> ```
+
 ### Installation
 
 1. **Clone the repository**
