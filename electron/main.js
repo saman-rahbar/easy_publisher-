@@ -91,11 +91,10 @@ function startNextServer() {
       env: { ...process.env }
     })
   } else {
-    // For production, start the Next.js standalone server
-    const serverPath = path.join(__dirname, '..', '.next', 'standalone', 'server.js')
-    console.log(`Starting Next.js production server from: ${serverPath}`)
+    // For production, start Next.js in production mode
+    console.log('Starting Next.js production server...')
     
-    nextProcess = spawn(process.execPath, [serverPath], {
+    nextProcess = spawn('npm', ['start'], {
       cwd: path.join(__dirname, '..'),
       env: { 
         ...process.env,
