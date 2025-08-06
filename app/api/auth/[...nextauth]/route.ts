@@ -60,7 +60,7 @@ const handler = NextAuth({
             }
           })
 
-          if (!user) {
+          if (!user || !user.password) {
             return null
           }
 
