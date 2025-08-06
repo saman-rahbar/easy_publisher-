@@ -3,10 +3,33 @@ const path = require('path')
 const isDev = require('electron-is-dev')
 const { spawn } = require('child_process')
 
-let mainWindow
-let nextProcess
+let mainWindow = null
+let nextProcess = null
+
+// Ensure single instance
+const gotTheLock = app.requestSingleInstanceLock()
+
+if (!gotTheLock) {
+  console.log('Another instance is already running, quitting...')
+  app.quit()
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // Someone tried to run a second instance, we should focus our window instead.
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore()
+      mainWindow.focus()
+    }
+  })
+}
 
 function createWindow() {
+  // Prevent multiple windows
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) mainWindow.restore()
+    mainWindow.focus()
+    return
+  }
+
   // Create the browser window
   mainWindow = new BrowserWindow({
     width: 1200,
@@ -50,6 +73,12 @@ function createWindow() {
 }
 
 function startNextServer() {
+  // Prevent multiple server instances
+  if (nextProcess) {
+    console.log('Next.js server already running')
+    return
+  }
+
   // Set demo mode environment variable for Electron
   process.env.NEXT_PUBLIC_DEMO_MODE = 'true'
   process.env.NEXTAUTH_SECRET = 'demo-secret-key-for-electron-app'
@@ -171,14 +200,23 @@ app.whenReady().then(() => {
 })
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
+  // Clean up processes
+  if (nextProcess) {
+    nextProcess.kill()
   }
+  app.quit()
 })
 
 app.on('activate', () => {
+  // On macOS, re-create window when dock icon is clicked
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()
+  } else {
+    // Focus existing window
+    const windows = BrowserWindow.getAllWindows()
+    if (windows.length > 0) {
+      windows[0].focus()
+    }
   }
 })
 
