@@ -12,7 +12,7 @@ fi
 NODE_VERSION=$(node --version | cut -d'v' -f2 | cut -d'.' -f1)
 if [ "$NODE_VERSION" -lt 18 ]; then
     echo "⚠️  Warning: Node.js version is below 18. Please upgrade first:"
-    echo "   ./upgrade-node.sh"
+    echo "   ./fix-node-version.sh"
     exit 1
 fi
 

@@ -132,8 +132,13 @@ Experience the platform with interactive features:
 > **⚠️ Node.js Version Issue?** 
 > If you're getting "Node.js version >= v18.17.0 is required" error, run:
 > ```bash
-> ./upgrade-node.sh
+> ./fix-node-version.sh
 > ```
+> 
+> **Alternative methods:**
+> - **macOS**: `brew install node@18`
+> - **Windows**: Download from [nodejs.org](https://nodejs.org/)
+> - **Linux**: `sudo apt install nodejs` or use nvm
 
 ### Installation
 
